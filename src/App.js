@@ -1,42 +1,66 @@
-/* global React ReactDOM */
-const Pet = props => {
-  return React.createElement("div", {}, [
-    React.createElement("h1", {}, props.name),
-    React.createElement("h1", {}, props.animal),
-    React.createElement("h1", {}, props.breed)
-  ]);
-};
+import React from "react";
+import { render } from "react-dom";
+
+import pf from "petfinder-client";
+import Pet from "./Pet";
+
+const petfinder = pf({
+  key: process.env.API_KEY,
+  secret: process.env.API_SECRET
+});
 
 class App extends React.Component {
-  handleTitleClick() {
-    alert("You clicked the title");
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      pets: []
+    };
+  }
+  componentDidMount() {
+    petfinder.pet
+      .find({ output: "full", location: "Settle, WA" })
+      .then(data => {
+        let pets;
+        if (data.petfinder.pets && data.petfinder.pets.pet) {
+          if (Array.isArray(data.petfinder.pets.pet)) {
+            pets = data.petfinder.pets.pet;
+          } else {
+            pets = [data.petfinder.pets.pet];
+          }
+        } else {
+          pets = [];
+        }
+        this.setState({
+          pets
+        });
+      });
   }
   render() {
-    return React.createElement("div", {}, [
-      React.createElement(
-        "h1",
-        { onClick: this.handleTitleClick },
-        "Adopt Me!"
-      ),
-      React.createElement(Pet, {
-        name: "Luna",
-        animal: "Dog",
-        breed: "Mixed"
-      }),
-
-      React.createElement(Pet, {
-        name: "Sudo",
-        animal: "Dog",
-        breed: "Caucasian"
-      }),
-
-      React.createElement(Pet, {
-        name: "Java",
-        animal: "Dog",
-        breed: "Bleach"
-      })
-    ]);
+    return (
+      <div>
+        <h1>Adopt Me!</h1>
+        {this.state.pets.map(pet => {
+          let breed;
+          if (Array.isArray(pet.breeds.breed)) {
+            breed = pet.breeds.breed.join(", ");
+          } else {
+            breed = pet.breeds.breed;
+          }
+          return (
+            <Pet
+              animal={pet.animal}
+              key={pet.id}
+              name={pet.name}
+              breed={breed}
+              media={pet.media}
+              location={`${pet.contact.city}, ${pet.contact.state}`}
+            />
+          );
+        })}
+      </div>
+    );
   }
 }
 
-ReactDOM.render(React.createElement(App), document.getElementById("root"));
+render(<App />, document.getElementById("root"));
