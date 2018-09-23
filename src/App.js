@@ -1,42 +1,19 @@
-/* global React ReactDOM */
-const Pet = props => {
-  return React.createElement("div", {}, [
-    React.createElement("h1", {}, props.name),
-    React.createElement("h1", {}, props.animal),
-    React.createElement("h1", {}, props.breed)
-  ]);
-};
+import React from "react";
+import { render } from "react-dom";
+import Pet from "./Pet";
+import pf from 'petfinder-client';
 
 class App extends React.Component {
-  handleTitleClick() {
-    alert("You clicked the title");
-  }
   render() {
-    return React.createElement("div", {}, [
-      React.createElement(
-        "h1",
-        { onClick: this.handleTitleClick },
-        "Adopt Me!"
-      ),
-      React.createElement(Pet, {
-        name: "Luna",
-        animal: "Dog",
-        breed: "Mixed"
-      }),
-
-      React.createElement(Pet, {
-        name: "Sudo",
-        animal: "Dog",
-        breed: "Caucasian"
-      }),
-
-      React.createElement(Pet, {
-        name: "Java",
-        animal: "Dog",
-        breed: "Bleach"
-      })
-    ]);
+    return (
+      <div>
+        <h1>Adopt Me!</h1>
+        <Pet name="Luna" animal="Dog" breed="mixed" />
+        <Pet name="Sudo" animal="Dog" breed="Caucasian" />
+        <Pet name="Java" animal="Dog" breed="Bleach" />
+      </div>
+    );
   }
 }
 
-ReactDOM.render(React.createElement(App), document.getElementById("root"));
+render(<App />, document.getElementById("root"));
