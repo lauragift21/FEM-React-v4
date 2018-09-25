@@ -30,7 +30,11 @@
     "prettier": "^1.14.3"
   },
   "dependencies": {
-    "pet": "^1.0.1",
+    "@reach/router": "^1.2.0",
+    "babel-core": "^6.26.3",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
     "petfinder-client": "0.0.3",
     "react": "^16.5.2",
     "react-dom": "^16.5.2"
