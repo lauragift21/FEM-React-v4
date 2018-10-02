@@ -4,10 +4,19 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test:quite": "jest --silent",
+    "test:coverage": "jest --coverage",
+    "test:watch": "jest --watch",
+    "test:update": "jest -u",
     "format": "prettier --write \"src/**/*.{js,jsx,css,json}\"",
     "lint": "eslint --fix \"**/*.{js, jsx}\"",
     "dev": "parcel src/index.html",
     "build": "parcel build src/index.html"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!petfinder-client).+"
+    ]
   },
   "repository": {
     "type": "git",
@@ -27,8 +36,10 @@
     "eslint-plugin-jsx-a11y": "^6.1.1",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.11.1",
+    "jest": "^23.6.0",
     "parcel-bundler": "^1.9.7",
-    "prettier": "^1.14.3"
+    "prettier": "^1.14.3",
+    "react-test-renderer": "^16.5.2"
   },
   "dependencies": {
     "@reach/router": "^1.2.0",
